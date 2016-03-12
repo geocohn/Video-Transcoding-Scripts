@@ -1,0 +1,19 @@
+#!/bin/bash
+
+WIDTH=1280
+HEIGHT=720
+
+for FILENAME in "$@" ;
+
+do
+
+FILEBASE=${FILENAME%.*}
+
+if [ -e "$FILEBASE.meta" ]
+then META="-i '$FILEBASE.meta' -map_metadata 0:1"
+else META=''
+fi
+
+ffmpeg -i \'$FILENAME\' $META -s $WIDTH\x$HEIGHT -aspect 16:9 -vcodec libvpx -vpre 720p -vb 4M -r 24000/1001 -crf 20 -threads 2 -acodec libvorbis -ab 192k -aq 6 \'$FILEBASE.$WIDTH\x$HEIGHT.webm\'
+
+done

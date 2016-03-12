@@ -1,0 +1,23 @@
+#!/bin/bash
+
+WIDTH=1280
+HEIGHT=720
+
+for FILENAME in "$@" ;
+
+do
+
+FILEBASE=${FILENAME%.*}
+
+if [ -e "$FILEBASE.meta" ]
+then META="-i '$FILEBASE.meta' -map_metadata 0:1"
+else META=''
+fi
+
+ffmpeg -i \'$FILENAME\' $META -acodec libfaac -ab 192k -s $WIDTH\x$HEIGHT -aspect 16:9 -vf "drawtext=fontsize=15:fontfile=/usr/share/fonts/truetype/droid/DroidSansMono.ttf:timecode='00\:00\:00\:00':rate=24:fontsize=42:fontcolor='white':boxcolor=0x00000080:box=1:x=640-text_w/2:y=650" -vcodec libx264 -pix_fmt yuv420p -profile:v main -r 24000/1001 -crf 20 -threads 0 \'$FILEBASE.temp.mp4\'
+
+qt-faststart \'$FILEBASE.temp.mp4\' \'$FILEBASE.$WIDTH\x$HEIGHT.mp4\'
+
+rm \'$FILEBASE.temp.mp4\';
+
+done
