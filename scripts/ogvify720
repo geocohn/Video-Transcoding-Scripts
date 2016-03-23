@@ -10,10 +10,10 @@ do
 FILEBASE=${FILENAME%.*}
 
 if [ -e "$FILEBASE.meta" ]
-then META="-i '$FILEBASE.meta' -map_metadata 0:1"
+then META='-i "$FILEBASE.meta" -map_metadata 0:1'
 else META=''
 fi
 
-ffmpeg -i \'$FILENAME\' $META -acodec libvorbis -ab 192k -s $WIDTH\x$HEIGHT -aspect 16:9 -vcodec libtheora -qmax 42 -qmin 10 -vb 4M -r 24000/1001 -crf 20 -threads 2 \'$FILEBASE.$WIDTH\x$HEIGHT.ogv\'
+ffmpeg -i "$FILENAME" $META -acodec libvorbis -ab 192k -s $WIDTH\x$HEIGHT -aspect 16:9 -vcodec libtheora -qmax 42 -qmin 10 -vb 4M -r 24000/1001 -crf 20 -threads 2 "$FILEBASE.$WIDTHx$HEIGHT.ogv"
 
 done
