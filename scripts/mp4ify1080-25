@@ -3,6 +3,8 @@
 WIDTH=1920
 HEIGHT=1080
 
+X=x
+
 for FILENAME in "$@" ;
 
 do
@@ -14,9 +16,9 @@ then META='-i "$FILEBASE.meta" -map_metadata 0:1'
 else META=''
 fi
 
-ffmpeg -i "$FILENAME" $META -acodec libfaac -ab 192k -s $WIDTH\x$HEIGHT -aspect 16:9 -vcodec libx264 -pix_fmt yuv420p -profile:v main -r 25 -crf 20 -threads 0 "$FILEBASE.temp.mp4"
+ffmpeg -i "$FILENAME" $META -acodec libfaac -ab 192k -s $WIDTH$X$HEIGHT -aspect 16:9 -vcodec libx264 -pix_fmt yuv420p -profile:v main -r 25 -crf 20 -threads 0 "$FILEBASE.temp.mp4"
 
-qt-faststart "$FILEBASE.temp.mp4" "$FILEBASE.$WIDTHx$HEIGHT.mp4"
+qt-faststart "$FILEBASE.temp.mp4" "$FILEBASE.$WIDTH$X$HEIGHT.mp4"
 
 rm "$FILEBASE.temp.mp4";
 
